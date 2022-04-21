@@ -3,6 +3,7 @@ package com.example.crowdsourceapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,8 +65,19 @@ public class LoginActivity extends AppCompatActivity {
                 String email, password;
                 email = emailTextView.getText().toString();
                 password = passwordTextView.getText().toString();
+                Toast.makeText(getApplicationContext(),email,Toast.LENGTH_LONG).show();
+                if(email.contains("@") == false){
+                    Toast.makeText(getApplicationContext(),"Email must have @ in it",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(email.contains(".") == false){
+                    Toast.makeText(getApplicationContext(),"Email must have . in it",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if(email.equals("csa@gov.in") && password.equals("csa123")){
                     curUserType = "csa";
+
+                    Toast.makeText(getApplicationContext(),"successfully logged in",Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getApplicationContext(),CSAMainActivity.class));
                 }
             }
@@ -162,5 +174,17 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                         });
+    }
+
+    public Boolean isCurUserLoggedIn(){
+        try{
+            System.out.println(mAuth.getCurrentUser().getUid());
+        }catch(Exception e){
+            return false;
+        }
+        return true;
+    }
+    public void logout(){
+        mAuth.signOut();
     }
 }

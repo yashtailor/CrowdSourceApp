@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
         public class ResultsActivity extends AppCompatActivity {
+
             private LinearLayout showAllDoneElections;
             private DatabaseReference electionDbRef, electionCandidatesRef;
             private FirebaseUser curUser;

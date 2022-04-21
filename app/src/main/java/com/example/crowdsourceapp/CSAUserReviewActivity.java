@@ -32,7 +32,7 @@ public class CSAUserReviewActivity extends AppCompatActivity {
     private DatabaseReference votersDbRef;
     private ListView voters;
     private TextView firstName,lastName,aadharNum,gender,dob;
-    private LinearLayout upparLayout,done;
+    private LinearLayout upparLayout,doneLayout;
     private EditText message;
     private Button vAccpet,vDecline,backToMain,backToMain2;
     private ArrayList<String> voterIds = new ArrayList<String>();
@@ -66,7 +66,7 @@ public class CSAUserReviewActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),CSAMainActivity.class));
             }
         });
-        done = findViewById(R.id.doneLayout);
+        doneLayout = findViewById(R.id.doneLayout);
         votersDbRef = FirebaseDatabase.getInstance().getReference();
         votersDbRef = votersDbRef.child("user-data");
         votersDbRef.addListenerForSingleValueEvent((new ValueEventListener() {
@@ -100,7 +100,7 @@ public class CSAUserReviewActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Declined : "+e.getMessage(),Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -166,7 +166,7 @@ public class CSAUserReviewActivity extends AppCompatActivity {
     }
 
     void done(){
-        done.setVisibility(View.VISIBLE);
+        doneLayout.setVisibility(View.VISIBLE);
         upparLayout.setVisibility(View.GONE);
     }
 }

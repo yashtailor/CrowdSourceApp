@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private StorageReference storageRef;
     private FirebaseUser user;
     private UploadTask uploadTask;
+    private int count=0;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -131,6 +132,36 @@ public class MainActivity extends AppCompatActivity {
                 int month = datePicker.getMonth();
                 int year = datePicker.getYear();
                 String dob = String.valueOf(day)+"/"+String.valueOf(month+1)+"/"+String.valueOf(year);
+
+                if(fName.trim().equals("")){
+                    Toast.makeText(getApplicationContext(),"First Name Cannot Be Empty",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(lName.trim().equals("")){
+                    Toast.makeText(getApplicationContext(),"Last Name Cannot Be Empty",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(fName.trim().contains("12")){
+                    Toast.makeText(getApplicationContext(),"First Name cannot have a number",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(lName.trim().contains("12")){
+                    Toast.makeText(getApplicationContext(),"Last Name cannot have a number",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(fName.trim().contains("\"")){
+                    Toast.makeText(getApplicationContext(),"First Name cannot have \"",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(lName.trim().contains("\"")){
+                    Toast.makeText(getApplicationContext(),"Last Name cannot have \"",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(aadharNum.trim().length() != 12){
+                    Toast.makeText(getApplicationContext(),"Aadhar Number must be a 12 digit number",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 User curUser = new User(fName,lName,gender,dob,aadharNum,"true","false","",uid);
                 dbRef.child("user-data").child(uid).setValue(curUser).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -176,6 +207,16 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_FILES && resultCode == RESULT_OK && data != null && data.getData() != null) {
             file = data.getData();
+            /*if(count==0){
+                Toast.makeText(getApplicationContext(), "PDF Type Not supported", Toast.LENGTH_SHORT).show();
+                count += 1;
+                return;
+            }
+            if(count==1){
+                Toast.makeText(getApplicationContext(), "Doc Type Not supported", Toast.LENGTH_SHORT).show();
+                count += 1;
+                return;
+            }*/
             putFileInStorage(file);
         }
     }

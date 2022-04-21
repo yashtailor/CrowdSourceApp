@@ -140,4 +140,16 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+    public Boolean isCurUserLoggedIn(){
+        try{
+            System.out.println(mAuth.getCurrentUser().getUid());
+        }catch(Exception e){
+            return false;
+        }
+        return true;
+    }
+    public void logout(){
+        mAuth.signOut();
+    }
 }
